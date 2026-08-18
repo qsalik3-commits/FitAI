@@ -1,0 +1,6 @@
+{
+  "name": "FitAI Coach",
+  "description": "A modern cross-platform fitness application that helps users track their health, calories, workouts, and fitness goals while providing personalized guidance through an intelligent AI coach.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
