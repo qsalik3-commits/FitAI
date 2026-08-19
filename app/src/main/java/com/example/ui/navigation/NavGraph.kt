@@ -42,7 +42,8 @@ val bottomNavItems = listOf(
     Screen.Home,
     Screen.Activity,
     Screen.Nutrition,
-    Screen.Calculator
+    Screen.Calculator,
+    Screen.Guide
 )
 
 @Composable
