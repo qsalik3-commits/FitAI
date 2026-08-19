@@ -66,7 +66,7 @@ fun MainScreen(fitnessViewModel: FitnessViewModel = viewModel()) {
                 bottomNavItems.forEach { screen ->
                     NavigationBarItem(
                         icon = { Icon(screen.icon, contentDescription = screen.title) },
-                        label = { Text(screen.title) },
+                        alwaysShowLabel = false,
                         selected = currentRoute == screen.route,
                         onClick = {
                             navController.navigate(screen.route) {
@@ -79,7 +79,6 @@ fun MainScreen(fitnessViewModel: FitnessViewModel = viewModel()) {
                         },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = Color(0xFFC6FF00),
-                            selectedTextColor = Color(0xFFC6FF00),
                             indicatorColor = Color(0xFF222818)
                         )
                     )
@@ -92,13 +91,27 @@ fun MainScreen(fitnessViewModel: FitnessViewModel = viewModel()) {
             startDestination = Screen.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screen.Home.route) { HomeScreen(fitnessViewModel) }
+            composable(Screen.Home.route) {
+                HomeScreen(
+                    viewModel = fitnessViewModel,
+                    onNavigateToGuide = { navController.navigate(Screen.Guide.route) },
+                    onNavigateToProfile = { navController.navigate(Screen.Profile.route) }
+                )
+            }
             composable(Screen.Activity.route) { ActivityScreen(fitnessViewModel) }
             composable(Screen.AICoach.route) { ChatScreen(fitnessViewModel) }
             composable(Screen.Nutrition.route) { NutritionScreen(fitnessViewModel) }
             composable(Screen.Calculator.route) { CalculatorScreen(fitnessViewModel) }
-            composable(Screen.Profile.route) { ProfileScreen() }
-            composable(Screen.Guide.route) { GuideScreen() }
+            composable(Screen.Profile.route) {
+                ProfileScreen(
+                    onNavigateToGuide = { navController.navigate(Screen.Guide.route) }
+                )
+            }
+            composable(Screen.Guide.route) {
+                GuideScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
         }
     }
 }

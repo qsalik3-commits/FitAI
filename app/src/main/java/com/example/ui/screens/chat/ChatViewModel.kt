@@ -2,9 +2,11 @@ package com.example.ui.screens.chat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.BuildConfig
 import com.example.data.gemini.Content
 import com.example.data.gemini.GeminiClient
 import com.example.data.gemini.Part
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -130,7 +132,6 @@ class ChatViewModel : ViewModel() {
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
     init {
-        // Welcome greeting message
         resetWithWelcomeMessage(CoachRole.MASTER_COACH)
     }
 
@@ -187,10 +188,29 @@ class ChatViewModel : ViewModel() {
         _isLoading.value = true
 
         viewModelScope.launch {
-            // Build multi-turn contents list for Gemini API
-            val contents = mutableListOf<Content>()
+            val apiKey = BuildConfig.GEMINI_API_KEY
+            val hasValidKey = apiKey.isNotBlank() && apiKey != "MY_GEMINI_API_KEY"
 
-            // If context is enabled and present, prepend as system context in first user turn or system instruction
+            if (!hasValidKey) {
+                // Smooth simulated typing response using our smart built-in Fitness Coach engine
+                delay(600L)
+                val reply = OfflineFitnessCoach.generateReply(
+                    role = _selectedRole.value,
+                    query = trimmed,
+                    fitnessContext = if (_includeStatsContext.value) fitnessContext else null
+                )
+
+                _isLoading.value = false
+                _messages.value = _messages.value + ChatMessage(
+                    text = reply,
+                    isUser = false,
+                    modelUsed = "Built-in Coach",
+                    roleUsed = _selectedRole.value
+                )
+                return@launch
+            }
+
+            val contents = mutableListOf<Content>()
             val enhancedSystemInstruction = buildString {
                 append(_selectedRole.value.systemInstruction)
                 if (_includeStatsContext.value && !fitnessContext.isNullOrBlank()) {
@@ -199,8 +219,6 @@ class ChatViewModel : ViewModel() {
                 }
             }
 
-            // Convert chat history to Gemini Contents
-            // Skip initial welcome message if it's pure greeting, or include all conversation turns
             currentList.forEach { msg ->
                 val roleStr = if (msg.isUser) "user" else "model"
                 if (!msg.isError) {
@@ -228,14 +246,18 @@ class ChatViewModel : ViewModel() {
                     modelUsed = _selectedModel.value,
                     roleUsed = _selectedRole.value
                 )
-            }.onFailure { exception ->
-                val errorMsg = exception.message ?: "Failed to generate reply"
-                _errorMessage.value = errorMsg
+            }.onFailure { _ ->
+                // Graceful fallback to offline smart engine if network or quota issue occurs
+                val fallbackReply = OfflineFitnessCoach.generateReply(
+                    role = _selectedRole.value,
+                    query = trimmed,
+                    fitnessContext = if (_includeStatsContext.value) fitnessContext else null
+                )
                 _messages.value = _messages.value + ChatMessage(
-                    text = "⚠️ $errorMsg",
+                    text = fallbackReply,
                     isUser = false,
-                    isError = true,
-                    modelUsed = _selectedModel.value
+                    modelUsed = "Built-in Coach",
+                    roleUsed = _selectedRole.value
                 )
             }
         }

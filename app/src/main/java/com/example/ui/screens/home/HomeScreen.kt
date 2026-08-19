@@ -11,8 +11,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -39,7 +41,11 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 @Composable
-fun HomeScreen(viewModel: FitnessViewModel) {
+fun HomeScreen(
+    viewModel: FitnessViewModel,
+    onNavigateToGuide: (() -> Unit)? = null,
+    onNavigateToProfile: (() -> Unit)? = null
+) {
     val caloriesBurned by viewModel.caloriesBurnedToday.collectAsState()
     val caloriesConsumed by viewModel.caloriesConsumedToday.collectAsState()
     val totalDuration by viewModel.totalDurationToday.collectAsState()
@@ -115,21 +121,43 @@ fun HomeScreen(viewModel: FitnessViewModel) {
                 Text("Fitness Tracker", color = MaterialTheme.colorScheme.onBackground, fontSize = 24.sp, fontWeight = FontWeight.Bold)
             }
             
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .background(
-                        brush = Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)),
-                        shape = CircleShape
-                    )
-                    .padding(2.dp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_app_icon),
-                    contentDescription = "Avatar",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize().clip(CircleShape).border(2.dp, Color(0xFF1A1A1A), CircleShape)
-                )
+                if (onNavigateToGuide != null) {
+                    IconButton(
+                        onClick = onNavigateToGuide,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .background(Color.White.copy(alpha = 0.08f), CircleShape)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.HelpOutline,
+                            contentDescription = "App Guide",
+                            tint = Color(0xFFC6FF00),
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .background(
+                            brush = Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)),
+                            shape = CircleShape
+                        )
+                        .clickable(enabled = onNavigateToProfile != null) { onNavigateToProfile?.invoke() }
+                        .padding(2.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.img_app_icon),
+                        contentDescription = "Avatar",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize().clip(CircleShape).border(2.dp, Color(0xFF1A1A1A), CircleShape)
+                    )
+                }
             }
         }
         

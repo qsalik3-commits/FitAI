@@ -47,7 +47,6 @@ fun ChatScreen(
     val selectedModel by chatViewModel.selectedModel.collectAsState()
     val includeStatsContext by chatViewModel.includeStatsContext.collectAsState()
 
-    // Fitness stats from FitnessViewModel
     val caloriesBurned by fitnessViewModel.caloriesBurnedToday.collectAsState()
     val caloriesConsumed by fitnessViewModel.caloriesConsumedToday.collectAsState()
     val waterLitres by fitnessViewModel.waterLitresToday.collectAsState()
@@ -64,7 +63,6 @@ fun ChatScreen(
     val listState = rememberLazyListState()
     val focusManager = LocalFocusManager.current
 
-    // Auto-scroll when new messages arrive or loading state changes
     LaunchedEffect(messages.size, isLoading) {
         if (messages.isNotEmpty()) {
             listState.animateScrollToItem(messages.size - 1)
@@ -243,7 +241,6 @@ fun ChatScreen(
                     }
                 },
                 actions = {
-                    // Model Selection Pill
                     Surface(
                         onClick = { showModelBottomSheet = true },
                         shape = RoundedCornerShape(12.dp),
@@ -276,7 +273,6 @@ fun ChatScreen(
                         }
                     }
 
-                    // Clear Chat Button
                     IconButton(onClick = { showClearDialog = true }) {
                         Icon(
                             Icons.Default.DeleteOutline,
@@ -297,13 +293,11 @@ fun ChatScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // Role Selection Chips
             RoleSelectionRow(
                 selectedRole = selectedRole,
                 onRoleSelected = { role -> chatViewModel.selectRole(role) }
             )
 
-            // Health Context Sync Indicator Bar
             FitnessContextBar(
                 includeContext = includeStatsContext,
                 onToggle = { chatViewModel.toggleStatsContext() },
@@ -313,7 +307,6 @@ fun ChatScreen(
                 streak = currentStreak
             )
 
-            // Chat Messages Thread
             LazyColumn(
                 state = listState,
                 modifier = Modifier
@@ -334,7 +327,6 @@ fun ChatScreen(
                 }
             }
 
-            // Quick Prompt Suggestions (shown if conversation is short or user wants quick ideas)
             if (messages.size <= 2 && !isLoading) {
                 SuggestedPromptsSection(
                     prompts = selectedRole.suggestedPrompts,
@@ -347,7 +339,6 @@ fun ChatScreen(
                 )
             }
 
-            // Chat Input Bar
             ChatInputBar(
                 inputText = inputText,
                 onTextChanged = { inputText = it },
@@ -522,7 +513,6 @@ fun MessageBubble(message: ChatMessage) {
                 )
             ) {
                 Column(modifier = Modifier.padding(14.dp)) {
-                    // Message Text
                     Text(
                         text = message.text,
                         color = when {
@@ -536,7 +526,6 @@ fun MessageBubble(message: ChatMessage) {
 
                     Spacer(modifier = Modifier.height(6.dp))
 
-                    // Meta timestamp + model badge
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,

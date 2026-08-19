@@ -3,18 +3,22 @@ package com.example.ui.screens.guide
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun GuideScreen() {
+fun GuideScreen(onNavigateBack: (() -> Unit)? = null) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -22,23 +26,45 @@ fun GuideScreen() {
             .verticalScroll(rememberScrollState())
             .padding(24.dp)
     ) {
-        Text(
-            text = "App Guide",
-            color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = "Learn how to use FitAI",
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
-            fontSize = 14.sp,
-            modifier = Modifier.padding(bottom = 24.dp)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(bottom = 12.dp)
+        ) {
+            if (onNavigateBack != null) {
+                IconButton(
+                    onClick = onNavigateBack,
+                    modifier = Modifier
+                        .padding(end = 12.dp)
+                        .size(40.dp)
+                        .background(Color.White.copy(alpha = 0.08f), CircleShape)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
+                }
+            }
+            Column {
+                Text(
+                    text = "App Guide",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "Learn how to use FitAI & AI Coach",
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+                    fontSize = 14.sp
+                )
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
 
         GuideSection(
-            title = "🤖 FitAI Coach (Gemini Chatbot)",
-            description = "Get instant personalized fitness, workout, and nutrition advice powered by Google's Gemini models. Select specialized AI coach roles (FitAI Coach, Sports Nutritionist, Strength & Form Specialist, or Recovery & Mobility Expert) and switch between Gemini 3.5 Flash (General), Gemini 3.1 Pro (Deep Reasoning), and Gemini 3.1 Flash-Lite (Fast Answers). You can also sync your daily activity stats so your coach knows your burned calories, meal logs, and hydration levels."
+            title = "🤖 FitAI Coach (AI Chatbot with Built-in Offline Support)",
+            description = "Get instant workout programs, form tips, and nutrition guidance. The chatbot comes with an intelligent built-in knowledge engine so it responds instantly even without an API key. If you configure a Gemini API key in AI Studio Secrets, you unlock live multi-turn Gemini 3.5 Flash, 3.1 Pro, and 3.1 Flash-Lite generative models. You can also sync your daily activity stats so your coach knows your burned calories, meal logs, and hydration levels."
         )
 
         GuideSection(
