@@ -53,7 +53,7 @@ fun GuideScreen(onNavigateBack: (() -> Unit)? = null) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Learn how to use FitAI & AI Coach",
+                    text = "Learn how to use Fitness Tracker",
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                     fontSize = 14.sp
                 )
@@ -61,11 +61,6 @@ fun GuideScreen(onNavigateBack: (() -> Unit)? = null) {
         }
         
         Spacer(modifier = Modifier.height(16.dp))
-
-        GuideSection(
-            title = "🤖 FitAI Coach (AI Chatbot with Built-in Offline Support)",
-            description = "Get instant workout programs, form tips, and nutrition guidance. The chatbot comes with an intelligent built-in knowledge engine so it responds instantly even without an API key. If you configure a Gemini API key in AI Studio Secrets, you unlock live multi-turn Gemini 3.5 Flash, 3.1 Pro, and 3.1 Flash-Lite generative models. You can also sync your daily activity stats so your coach knows your burned calories, meal logs, and hydration levels."
-        )
 
         GuideSection(
             title = "🏠 Home & Dynamic Streak Tracker",

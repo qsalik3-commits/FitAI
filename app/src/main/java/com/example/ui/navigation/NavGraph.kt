@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.automirrored.filled.Help
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -29,12 +28,10 @@ import com.example.ui.screens.nutrition.NutritionScreen
 import com.example.ui.screens.calculator.CalculatorScreen
 import com.example.ui.screens.profile.ProfileScreen
 import com.example.ui.screens.guide.GuideScreen
-import com.example.ui.screens.chat.ChatScreen
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
     object Home : Screen("home", "Home", Icons.Default.Home)
     object Activity : Screen("activity", "Activity", Icons.AutoMirrored.Filled.DirectionsRun)
-    object AICoach : Screen("chat", "AI Coach", Icons.Default.AutoAwesome)
     object Nutrition : Screen("nutrition", "Nutrition", Icons.Default.Restaurant)
     object Calculator : Screen("calculator", "Calculator", Icons.Default.Calculate)
     object Profile : Screen("profile", "Profile", Icons.Default.Person)
@@ -44,7 +41,6 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
 val bottomNavItems = listOf(
     Screen.Home,
     Screen.Activity,
-    Screen.AICoach,
     Screen.Nutrition,
     Screen.Calculator
 )
@@ -99,7 +95,6 @@ fun MainScreen(fitnessViewModel: FitnessViewModel = viewModel()) {
                 )
             }
             composable(Screen.Activity.route) { ActivityScreen(fitnessViewModel) }
-            composable(Screen.AICoach.route) { ChatScreen(fitnessViewModel) }
             composable(Screen.Nutrition.route) { NutritionScreen(fitnessViewModel) }
             composable(Screen.Calculator.route) { CalculatorScreen(fitnessViewModel) }
             composable(Screen.Profile.route) {

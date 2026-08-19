@@ -205,7 +205,7 @@ fun HomeScreen(
             StatCard("STEPS", String.format("%,d", estimatedSteps), "10k", (estimatedSteps / 10000f).coerceIn(0f, 1f), modifier = Modifier.weight(1f))
         }
         
-        // FitAI Insight Card
+        // Daily Fitness Insight Card
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -221,12 +221,12 @@ fun HomeScreen(
                         .background(Color(0xFF9C27B0).copy(alpha = 0.1f), CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("🧠", fontSize = 24.sp)
+                    Text("💡", fontSize = 24.sp)
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Column {
                     Text(
-                        "FitAI Coach Insight", 
+                        "Daily Fitness Tip", 
                         fontWeight = FontWeight.Bold, 
                         color = Color(0xFF9C27B0), 
                         fontSize = 14.sp

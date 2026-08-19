@@ -101,8 +101,8 @@ fun ProfileScreen(onNavigateToGuide: (() -> Unit)? = null) {
                         }
                         Spacer(modifier = Modifier.width(16.dp))
                         Column {
-                            Text("FitAI App Guide", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
-                            Text("Learn how to track activities, macros & use AI", fontSize = 12.sp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f))
+                            Text("Fitness Tracker Guide", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
+                            Text("Learn how to track activities, macros & goals", fontSize = 12.sp, color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f))
                         }
                     }
                     Icon(
