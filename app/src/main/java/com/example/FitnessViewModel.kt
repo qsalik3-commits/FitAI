@@ -9,6 +9,10 @@ import com.example.data.ActivityEntity
 import com.example.data.AppDatabase
 import com.example.data.FitnessRepository
 import com.example.data.MealEntity
+import com.example.data.MindFitnessRepository
+import com.example.data.MindGameType
+import com.example.data.MindStats
+import com.example.data.AchievementItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,6 +34,8 @@ class FitnessViewModel(application: Application) : AndroidViewModel(application)
     
     private val repository = FitnessRepository(db.fitnessDao())
     private val prefs = application.getSharedPreferences("fitai_prefs", Context.MODE_PRIVATE)
+    val mindRepository = MindFitnessRepository(application)
+    val mindStats: StateFlow<MindStats> = mindRepository.statsFlow
 
     // Dynamic ticker for local device date - automatically updates when midnight strikes
     private val _currentDateFlow = MutableStateFlow(LocalDate.now(ZoneId.systemDefault()))

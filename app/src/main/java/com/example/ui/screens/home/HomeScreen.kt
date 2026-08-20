@@ -44,7 +44,8 @@ import java.time.ZoneId
 fun HomeScreen(
     viewModel: FitnessViewModel,
     onNavigateToGuide: (() -> Unit)? = null,
-    onNavigateToProfile: (() -> Unit)? = null
+    onNavigateToProfile: (() -> Unit)? = null,
+    onNavigateToMindFitness: (() -> Unit)? = null
 ) {
     val caloriesBurned by viewModel.caloriesBurnedToday.collectAsState()
     val caloriesConsumed by viewModel.caloriesConsumedToday.collectAsState()
@@ -57,6 +58,7 @@ fun HomeScreen(
     val todayLocalDate by viewModel.currentDateFlow.collectAsState()
     val selectedLocalDate by viewModel.selectedDate.collectAsState()
     val fitAiInsight by viewModel.fitAiInsight.collectAsState()
+    val mindStats by viewModel.mindStats.collectAsState()
     val todayVal = todayLocalDate.dayOfWeek.value
     val currentMonday = todayLocalDate.minusDays((todayLocalDate.dayOfWeek.value - 1).toLong())
     val waterLitres by viewModel.waterLitresToday.collectAsState()
@@ -238,6 +240,103 @@ fun HomeScreen(
                         lineHeight = 18.sp, 
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
                     )
+                }
+            }
+        }
+
+        // Mind Fitness Interactive Card
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .border(1.dp, Color(0xFFC6FF00).copy(alpha = 0.35f), RoundedCornerShape(24.dp))
+                .clickable { onNavigateToMindFitness?.invoke() },
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF141910))
+        ) {
+            Column(modifier = Modifier.padding(20.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(Color(0xFFC6FF00).copy(alpha = 0.15f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("🧠", fontSize = 24.sp)
+                        }
+                        Spacer(modifier = Modifier.width(14.dp))
+                        Column {
+                            Text(
+                                text = "Mind Fitness",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                fontSize = 17.sp
+                            )
+                            Text(
+                                text = "Train your focus, memory & mindfulness",
+                                fontSize = 12.sp,
+                                color = Color.White.copy(alpha = 0.7f)
+                            )
+                        }
+                    }
+
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = Color(0xFF222B18)
+                    ) {
+                        Text(
+                            text = "OPEN",
+                            color = Color(0xFFC6FF00),
+                            fontSize = 11.sp,
+                            fontWeight = FontWeight.Black,
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(14.dp))
+                HorizontalDivider(color = Color.White.copy(alpha = 0.08f))
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("🔥 ", fontSize = 15.sp)
+                        Text(
+                            text = "Mind Streak: ",
+                            color = Color.White.copy(alpha = 0.8f),
+                            fontSize = 13.sp
+                        )
+                        Text(
+                            text = "${mindStats.streak} ${if (mindStats.streak == 1) "day" else "days"}",
+                            color = Color(0xFFFF9100),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 13.sp
+                        )
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("🧠 ", fontSize = 15.sp)
+                        Text(
+                            text = "Score: ",
+                            color = Color.White.copy(alpha = 0.8f),
+                            fontSize = 13.sp
+                        )
+                        Text(
+                            text = "${mindStats.mindScore}",
+                            color = Color(0xFFC6FF00),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 13.sp
+                        )
+                    }
                 }
             }
         }

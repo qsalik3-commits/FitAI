@@ -68,6 +68,11 @@ fun GuideScreen(onNavigateBack: (() -> Unit)? = null) {
         )
 
         GuideSection(
+            title = "🧠 Mind Fitness",
+            description = "Train focus, memory, and mindfulness completely offline with 5 interactive 60-second games: Focus Flow, Memory Flash, Color Focus, Number Focus, and Calm Minute. Earn XP, level up from Beginner to Mind Master, maintain your dedicated Mind Streak, and unlock achievement badges."
+        )
+
+        GuideSection(
             title = "🏃 Activity",
             description = "Log your workouts and exercises here. You can choose from various activities like Running, Cycling, or Weightlifting. Enter the duration and intensity, and the app will estimate the calories burned. Your total active minutes and calories burned contribute to your daily goals."
         )

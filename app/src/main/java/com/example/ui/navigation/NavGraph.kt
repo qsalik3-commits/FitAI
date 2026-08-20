@@ -28,6 +28,7 @@ import com.example.ui.screens.nutrition.NutritionScreen
 import com.example.ui.screens.calculator.CalculatorScreen
 import com.example.ui.screens.profile.ProfileScreen
 import com.example.ui.screens.guide.GuideScreen
+import com.example.ui.screens.mind.MindFitnessScreen
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
     object Home : Screen("home", "Home", Icons.Default.Home)
@@ -36,6 +37,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object Calculator : Screen("calculator", "Calculator", Icons.Default.Calculate)
     object Profile : Screen("profile", "Profile", Icons.Default.Person)
     object Guide : Screen("guide", "Guide", Icons.AutoMirrored.Filled.Help)
+    object MindFitness : Screen("mind_fitness", "Mind Fitness", Icons.Default.Home)
 }
 
 val bottomNavItems = listOf(
@@ -92,7 +94,8 @@ fun MainScreen(fitnessViewModel: FitnessViewModel = viewModel()) {
                 HomeScreen(
                     viewModel = fitnessViewModel,
                     onNavigateToGuide = { navController.navigate(Screen.Guide.route) },
-                    onNavigateToProfile = { navController.navigate(Screen.Profile.route) }
+                    onNavigateToProfile = { navController.navigate(Screen.Profile.route) },
+                    onNavigateToMindFitness = { navController.navigate(Screen.MindFitness.route) }
                 )
             }
             composable(Screen.Activity.route) { ActivityScreen(fitnessViewModel) }
@@ -105,6 +108,12 @@ fun MainScreen(fitnessViewModel: FitnessViewModel = viewModel()) {
             }
             composable(Screen.Guide.route) {
                 GuideScreen(
+                    onNavigateBack = { navController.popBackStack() }
+                )
+            }
+            composable(Screen.MindFitness.route) {
+                MindFitnessScreen(
+                    viewModel = fitnessViewModel,
                     onNavigateBack = { navController.popBackStack() }
                 )
             }
