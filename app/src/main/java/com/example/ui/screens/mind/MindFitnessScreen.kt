@@ -167,9 +167,37 @@ fun MindFitnessScreen(
             .fillMaxSize()
             .background(Color(0xFF0D0D0D))
             .verticalScroll(rememberScrollState())
-            .padding(20.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 32.dp)
     ) {
-        // Header Row
+        // Header Section with Back button & Title
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(
+                onClick = onNavigateBack,
+                modifier = Modifier
+                    .padding(end = 12.dp)
+                    .size(40.dp)
+                    .background(Color.White.copy(alpha = 0.08f), CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White
+                )
+            }
+            Text(
+                text = "Mind Fitness",
+                color = Color.White,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        // Subtitle and Level Badge row
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -177,48 +205,38 @@ fun MindFitnessScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(
-                    onClick = onNavigateBack,
-                    modifier = Modifier
-                        .padding(end = 12.dp)
-                        .size(40.dp)
-                        .background(Color.White.copy(alpha = 0.08f), CircleShape)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
-                        tint = Color.White
-                    )
-                }
-                Column {
-                    Text(
-                        text = "Mind Fitness",
-                        color = Color.White,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Take a short break and train your mind.",
-                        color = Color.White.copy(alpha = 0.7f),
-                        fontSize = 13.sp
-                    )
-                }
-            }
+            Text(
+                text = "Take a short break and train your mind.",
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 13.sp,
+                modifier = Modifier.weight(1f, fill = false)
+            )
 
-            // Level pill
+            Spacer(modifier = Modifier.width(12.dp))
+
+            // Level pill - horizontal, explicit no-wrap badge
             Surface(
                 shape = RoundedCornerShape(16.dp),
                 color = Color(0xFF222818),
                 border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC6FF00).copy(alpha = 0.4f))
             ) {
-                Text(
-                    text = "Lvl ${mindStats.level} • ${mindStats.levelTitle}",
-                    color = Color(0xFFC6FF00),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-                )
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "🧠",
+                        fontSize = 12.sp
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "Lvl ${mindStats.level} • ${mindStats.levelTitle}",
+                        color = Color(0xFFC6FF00),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
+                    )
+                }
             }
         }
 
@@ -226,18 +244,21 @@ fun MindFitnessScreen(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 20.dp)
-                .border(1.dp, Color(0xFFC6FF00).copy(alpha = 0.4f), RoundedCornerShape(26.dp)),
-            shape = RoundedCornerShape(26.dp),
+                .padding(bottom = 16.dp)
+                .border(1.dp, Color(0xFFC6FF00).copy(alpha = 0.4f), RoundedCornerShape(24.dp)),
+            shape = RoundedCornerShape(24.dp),
             colors = CardDefaults.cardColors(containerColor = Color(0xFF161B12))
         ) {
-            Column(modifier = Modifier.padding(22.dp)) {
+            Column(modifier = Modifier.padding(20.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        modifier = Modifier.weight(1f, fill = false),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Box(
                             modifier = Modifier
                                 .size(44.dp)
@@ -251,7 +272,7 @@ fun MindFitnessScreen(
                             Text(
                                 text = "TODAY'S MIND MINUTE",
                                 color = Color(0xFFC6FF00),
-                                fontSize = 12.sp,
+                                fontSize = 11.sp,
                                 fontWeight = FontWeight.Black,
                                 letterSpacing = 1.sp
                             )
@@ -265,6 +286,7 @@ fun MindFitnessScreen(
                     }
 
                     if (isDailyCompletedToday) {
+                        Spacer(modifier = Modifier.width(8.dp))
                         Surface(
                             shape = RoundedCornerShape(12.dp),
                             color = Color(0xFF00E676).copy(alpha = 0.2f)
@@ -280,7 +302,7 @@ fun MindFitnessScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = if (isDailyCompletedToday) "Completed for today! Streak maintained (+20 XP)." else "Your 60-second challenge is ready. Boost your focus & streak!",
                     color = Color.White.copy(alpha = 0.8f),
@@ -288,7 +310,7 @@ fun MindFitnessScreen(
                     lineHeight = 18.sp
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(14.dp))
 
                 Button(
                     onClick = {
@@ -297,43 +319,137 @@ fun MindFitnessScreen(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp),
-                    shape = RoundedCornerShape(16.dp),
+                        .height(50.dp),
+                    shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFC6FF00))
                 ) {
                     Text(
                         text = if (isDailyCompletedToday) "REPLAY TODAY'S CHALLENGE" else "START TODAY'S MIND MINUTE",
                         color = Color.Black,
                         fontWeight = FontWeight.Black,
-                        fontSize = 14.sp
+                        fontSize = 13.sp,
+                        maxLines = 1
                     )
                 }
             }
         }
 
-        // Stats Overview Grid (4 Cards)
-        Row(
+        // Your Mind Progress Section
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(bottom = 18.dp)
+                .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp)),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF141414))
         ) {
-            MindStatCard(
-                icon = "🧠",
-                title = "MIND SCORE",
-                value = "${mindStats.mindScore}",
-                subtitle = "Cognitive index",
-                modifier = Modifier.weight(1f)
-            )
-            MindStatCard(
-                icon = "🔥",
-                title = "MIND STREAK",
-                value = "${mindStats.streak}d",
-                subtitle = "Daily consistency",
-                modifier = Modifier.weight(1f)
-            )
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "Your Mind Progress",
+                    color = Color.White,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Mind XP
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .background(Color(0xFFC6FF00).copy(alpha = 0.15f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("🧠", fontSize = 16.sp)
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(
+                                text = "Mind XP",
+                                color = Color.White.copy(alpha = 0.6f),
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "${mindStats.xp} XP",
+                                color = Color.White,
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+
+                    // Mind Streak
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .background(Color(0xFFFF9100).copy(alpha = 0.15f), CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("🔥", fontSize = 16.sp)
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(
+                                text = "Mind Streak",
+                                color = Color.White.copy(alpha = 0.6f),
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                            Text(
+                                text = "${mindStats.streak} ${if (mindStats.streak == 1) "Day" else "Days"}",
+                                color = Color(0xFFFF9100),
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                // Progress Bar: Today's progress towards daily challenge
+                val todayProgressFraction = if (isDailyCompletedToday) 1f else 0f
+                val todayProgressPercent = if (isDailyCompletedToday) 100 else 0
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Today's progress",
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 12.sp
+                    )
+                    Text(
+                        text = "$todayProgressPercent%",
+                        color = Color(0xFFC6FF00),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                LinearProgressIndicator(
+                    progress = { todayProgressFraction },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(8.dp)
+                        .clip(RoundedCornerShape(4.dp)),
+                    color = Color(0xFFC6FF00),
+                    trackColor = Color.White.copy(alpha = 0.1f),
+                )
+            }
         }
 
+        // Stats Overview Grid (2 Cards: Mind Score & Mind Minutes)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -341,24 +457,24 @@ fun MindFitnessScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             MindStatCard(
+                icon = "🎯",
+                title = "MIND SCORE",
+                value = "${mindStats.mindScore}",
+                subtitle = "Cognitive index",
+                modifier = Modifier.weight(1f)
+            )
+            MindStatCard(
                 icon = "⏱",
                 title = "MIND MINUTES",
                 value = "${mindStats.totalMinutes}m",
                 subtitle = "${mindStats.gamesCompleted} games completed",
                 modifier = Modifier.weight(1f)
             )
-            MindStatCard(
-                icon = "⚡",
-                title = "TOTAL XP",
-                value = "${mindStats.xp}",
-                subtitle = "Next: ${mindStats.nextLevelXp} XP",
-                modifier = Modifier.weight(1f)
-            )
         }
 
-        // 5 Offline Mini Games Section
+        // Explore Mind Games Section
         Text(
-            text = "Training Mini-Games",
+            text = "Explore Mind Games",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White,
@@ -366,44 +482,47 @@ fun MindFitnessScreen(
         )
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.padding(bottom = 24.dp)
         ) {
             MindGameType.entries.forEach { game ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(20.dp))
-                        .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(20.dp))
+                        .clip(RoundedCornerShape(18.dp))
+                        .border(1.dp, Color.White.copy(alpha = 0.08f), RoundedCornerShape(18.dp))
                         .clickable {
                             isDailyChallengeRunning = false
                             activeGame = game
                         },
-                    shape = RoundedCornerShape(20.dp),
+                    shape = RoundedCornerShape(18.dp),
                     colors = CardDefaults.cardColors(containerColor = Color(0xFF181818))
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(18.dp),
+                            .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Box(
                                 modifier = Modifier
-                                    .size(46.dp)
+                                    .size(44.dp)
                                     .background(Color(0xFF242424), CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(game.iconEmoji, fontSize = 22.sp)
+                                Text(game.iconEmoji, fontSize = 20.sp)
                             }
-                            Spacer(modifier = Modifier.width(14.dp))
+                            Spacer(modifier = Modifier.width(12.dp))
                             Column {
                                 Text(
                                     text = game.title,
                                     color = Color.White,
-                                    fontSize = 16.sp,
+                                    fontSize = 15.sp,
                                     fontWeight = FontWeight.Bold
                                 )
                                 Text(
@@ -414,25 +533,27 @@ fun MindFitnessScreen(
                             }
                         }
 
+                        Spacer(modifier = Modifier.width(8.dp))
+
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Surface(
-                                shape = RoundedCornerShape(10.dp),
+                                shape = RoundedCornerShape(8.dp),
                                 color = Color(0xFF222818)
                             ) {
                                 Text(
                                     text = "${game.durationSec}s",
                                     color = Color(0xFFC6FF00),
-                                    fontSize = 12.sp,
+                                    fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                                 )
                             }
-                            Spacer(modifier = Modifier.width(8.dp))
+                            Spacer(modifier = Modifier.width(6.dp))
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
                                 contentDescription = "Play",
                                 tint = Color.White.copy(alpha = 0.4f),
-                                modifier = Modifier.size(14.dp)
+                                modifier = Modifier.size(13.dp)
                             )
                         }
                     }
