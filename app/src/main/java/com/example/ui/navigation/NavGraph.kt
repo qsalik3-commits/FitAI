@@ -7,6 +7,7 @@ import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.filled.Calculate
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -35,9 +36,9 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector)
     object Activity : Screen("activity", "Activity", Icons.AutoMirrored.Filled.DirectionsRun)
     object Nutrition : Screen("nutrition", "Nutrition", Icons.Default.Restaurant)
     object Calculator : Screen("calculator", "Calculator", Icons.Default.Calculate)
+    object MindFitness : Screen("mind_fitness", "Mind Fitness", Icons.Default.Psychology)
     object Profile : Screen("profile", "Profile", Icons.Default.Person)
     object Guide : Screen("guide", "Guide", Icons.AutoMirrored.Filled.Help)
-    object MindFitness : Screen("mind_fitness", "Mind Fitness", Icons.Default.Home)
 }
 
 val bottomNavItems = listOf(
@@ -45,7 +46,7 @@ val bottomNavItems = listOf(
     Screen.Activity,
     Screen.Nutrition,
     Screen.Calculator,
-    Screen.Guide
+    Screen.MindFitness
 )
 
 @Composable
